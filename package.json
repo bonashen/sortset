@@ -1,0 +1,17 @@
+{
+  "name": "sortset",
+  "version": "1.0.0",
+  "description": "sort set for javascript",
+  "main": "sortset.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sort",
+    "set",
+    "map",
+    "iterator"
+  ],
+  "author": "bona shen",
+  "license": "ISC"
+}
