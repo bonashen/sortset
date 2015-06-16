@@ -284,10 +284,21 @@ class DichotomySearcher
         return index
     data.length
 
-
-module.exports =
+_exports =
   SortSet: SortSet
   SortMap: SortMap
   Set: Set
   Iterator: Iterator
   DichotomySearcher: DichotomySearcher
+
+#exports
+if typeof exports != 'undefined'
+  if typeof module != 'undefined' and module.exports
+    exports = module.exports = _exports
+
+#for AMD
+if 'function'== typeof define and define.amd
+  define null, [], ->
+    _exports
+return
+
