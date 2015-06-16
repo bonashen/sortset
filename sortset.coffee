@@ -180,7 +180,8 @@ class SortMap extends SortSet
     super a.key, b.key
 
   add: (key, val)->
-    if key and 'object' == typeof key and arguments.length == 1
+#    console.log arguments
+    if key and ('object' == typeof key) and (arguments.length == 1)
       (super key).result
     else
       if arguments.length==2
@@ -200,7 +201,7 @@ class SortMap extends SortSet
     iterator = new Iterator(array)
     while iterator.hasNext()
       item = iterator.next()
-      if !@add.call(@, item.key, item.value)
+      if !@add item.key, item.value
         ret.push(item)
 
     ret.result = ret.length == 0

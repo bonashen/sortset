@@ -289,7 +289,7 @@ SortMap = (function(superClass) {
   };
 
   SortMap.prototype.add = function(key, val) {
-    if (key && 'object' === typeof key && arguments.length === 1) {
+    if (key && ('object' === typeof key) && (arguments.length === 1)) {
       return (SortMap.__super__.add.call(this, key)).result;
     } else {
       if (arguments.length === 2) {
@@ -319,7 +319,7 @@ SortMap = (function(superClass) {
     iterator = new Iterator(array);
     while (iterator.hasNext()) {
       item = iterator.next();
-      if (!this.add.call(this, item.key, item.value)) {
+      if (!this.add(item.key, item.value)) {
         ret.push(item);
       }
     }
