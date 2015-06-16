@@ -180,7 +180,6 @@ class SortMap extends SortSet
     super a.key, b.key
 
   add: (key, val)->
-#    console.log arguments
     if key and ('object' == typeof key) and (arguments.length == 1)
       (super key).result
     else
@@ -266,7 +265,6 @@ class DichotomySearcher
     pos = 0
     if len > 0 and compare(data[0], obj) == 0 then return 0
     while (pos = Math.ceil((pos + len ) / 2)) < len && len > 1
-#      console.log pos," len:",len
       switch compare(data[pos], obj)
         when 0
           return @result = pos
@@ -275,7 +273,6 @@ class DichotomySearcher
           pos = 0
         else
           pos = pos
-    #    console.log pos," len:",len
     if len == 1 && compare(data[0], obj) == 0 then return @result = 0
     return @result = -1
 
