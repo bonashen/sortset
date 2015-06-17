@@ -308,5 +308,4 @@ if exports? and module? and module.exports?
 if 'function' == typeof define and define.amd
   define null, [], ->
     _exports
-return
 

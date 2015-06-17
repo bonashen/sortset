@@ -510,6 +510,4 @@ if ('function' === typeof define && define.amd) {
   });
 }
 
-return;
-
 //# sourceMappingURL=sortset.js.map

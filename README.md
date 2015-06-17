@@ -1,8 +1,8 @@
-#sortset
+# sortset
 
 sortset has Set,SortSet,SortMap,Iterator for javascript,is collection toolkit part.
 
-##SortSet 
+## SortSet
 ```coffeescript
 
   ss = require '../sortset'
@@ -65,7 +65,7 @@ console.log "map.contains key 1:",map.containsKey('1'),"map.contains 'kerry' val
 ```
 
 
-#iterator
+# iterator
 
 ```coffeescript
 
