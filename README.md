@@ -48,6 +48,7 @@ map.add('8','kerry')
 map.add('3','lala')
 map.add('1','petter')
 map.add('2','bona')
+
 console.log map
 
     #==>{ entry: 
