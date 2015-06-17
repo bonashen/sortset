@@ -47,17 +47,18 @@ map = new SortMap([{key:'2',value:'bona shen'}])
 map.add('8','kerry')
 map.add('3','lala')
 map.add('1','petter')
+map.add('2','bona')
 console.log map
 
     #==>{ entry: 
     #==>      [ { key: '1', value: 'petter' },
-    #==>         { key: '2', value: 'bona shen' },
+    #==>         { key: '2', value: 'bona' },
     #==>         { key: '3', value: 'lala' },
     #==>         { key: '8', value: 'kerry' } ] }
     
 console.log "key:2 's value:",map.get('2')
 
-    #==>key:2 's value: bona shen
+    #==>key:2 's value: bona
 
 console.log "map.contains key 1:",map.containsKey('1'),"map.contains 'kerry' value:",map.containsValue('kerry')
 
@@ -80,7 +81,7 @@ while iterator.hasNext()
 
     #==>key-value interator operator:
     #==>key:1   value:petter
-    #==>key:2   value:bona shen
+    #==>key:2   value:bona
     #==>key:3   value:lala
     #==>key:8   value:kerry
 iterator = map.keySet()
@@ -104,7 +105,7 @@ while iterator.hasNext()
     #==>values iterator instanceof ss.Iterator: true
     #==>values interator operator:
     #==>value:petter
-    #==>value:bona shen
+    #==>value:bona
     #==>value:lala
     #==>value:kerry
 ```

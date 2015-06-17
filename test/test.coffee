@@ -29,6 +29,7 @@ map = new SortMap([{key:'2',value:'bona shen'}])
 map.add('8','kerry')
 map.add('3','lala')
 map.add('1','petter')
+map.add('2','bona')
 console.log map
 console.log "key:2 's value:",map.get('2')
 console.log "map.contains key 1:",map.containsKey('1'),"map.contains 'kerry' value:",map.containsValue('kerry')
@@ -56,6 +57,10 @@ while iterator.hasNext()
   obj = iterator.next()
   console.log "value:#{obj}"
 
+# forEach
+
+map.forEach (item)->
+  console.log item
 
 #DichotomySearcher
 

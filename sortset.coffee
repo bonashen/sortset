@@ -59,6 +59,10 @@ class Set
     if arguments.length == 0
       false
     else
+      if arguments.length ==1 and object instanceof Array
+        objects = object
+      else
+        objects = arguments
       ret = []
       (
         pos = @indexOf value
@@ -66,7 +70,7 @@ class Set
           @entry = (if pos == 0 then [] else @entry[0..pos - 1]).concat @entry[pos + 1...]
         else
           ret.push value
-      ) for value in arguments
+      ) for value in objects
       ret.result = ret.length == 0
       ret
 
@@ -151,6 +155,14 @@ class Set
         remove_data.push(item)
     ret.removeAll(remove_data)
     ret
+
+  forEach: (callback)->
+    if 'function' == typeof callback
+      iterator = @iterator()
+      while iterator.hasNext()
+        if callback(iterator.next())
+          break
+    return
 #Sort set
 class SortSet extends Set
   add: (object)->
@@ -178,12 +190,19 @@ class SortMap extends SortSet
 
   add: (key, val)->
     if key and ('object' == typeof key) and (arguments.length == 1)
-      (super key).result
+      obj = key
     else
       if arguments.length == 2
-        (super {key: key, value: val}).result
+        obj = key: key, value: val
+    if obj
+      pos =  @indexOf(obj)
+      if pos>-1
+        @entry[pos].value =obj.value
+        true
       else
-        false
+        (super obj).result
+    else
+      false
   putAll: (map)->
     array = []
     if map instanceof SortMap
@@ -285,7 +304,7 @@ class DichotomySearcher
     compare = if 'function' == typeof compare then compare else @compare
     flag = if @isReverse(compare) then -1 else 1
     for value,index in data
-      if compare(value, obj)*flag >= 0
+      if compare(value, obj) * flag >= 0
         return index
     data.length
 
@@ -297,12 +316,9 @@ _exports =
   DichotomySearcher: DichotomySearcher
 
 #exports
-if exports? and module? and module.exports?
-  exports = module.exports = _exports
 
-#if typeof exports != 'undefined'
-#  if typeof module != 'undefined' and module.exports
-#    exports = module.exports = _exports
+if module? and module.exports?
+  exports = module.exports = _exports
 
 #for AMD
 if 'function' == typeof define and define.amd

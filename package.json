@@ -1,6 +1,6 @@
 {
   "name": "sortset",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "sort set for javascript",
   "main": "sortset.js",
   "scripts": {
