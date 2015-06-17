@@ -55,3 +55,13 @@ console.log "values interator operator:"
 while iterator.hasNext()
   obj = iterator.next()
   console.log "value:#{obj}"
+
+
+#DichotomySearcher
+
+searcher = new ss.DichotomySearcher([5..1])
+console.log "find 4 value:",searcher.find(4)
+console.log "almostFind 0 value:",searcher.almostFind(0)
+
+searcher = new ss.DichotomySearcher([1..5])
+console.log "find 3 value:",searcher.find(3)

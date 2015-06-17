@@ -5,7 +5,7 @@ var DichotomySearcher, Iterator, Set, SortMap, SortSet, _exports, exports,
 
 Iterator = (function() {
   function Iterator() {
-    var ref, ref1, ref2;
+    var ref, ref1;
     this.data = [];
     if (arguments.length === 2) {
       ref1 = [arguments[0], arguments[1]], this.hasNext = ref1[0], this.next = ref1[1];
@@ -16,7 +16,7 @@ Iterator = (function() {
         if (ref instanceof Array) {
           this.data = ref.slice(0);
         } else {
-          ref2 = [ref.hasNext, ref.next, ref.toArray], this.hasNext = ref2[0], this.next = ref2[1], this.toArray = ref2[2];
+          this.hasNext = ref.hasNext, this.next = ref.next;
         }
       }
     }
@@ -28,10 +28,6 @@ Iterator = (function() {
 
   Iterator.prototype.next = function() {
     return this.data.shift();
-  };
-
-  Iterator.prototype.toArray = function() {
-    return this.data;
   };
 
   return Iterator;
@@ -47,9 +43,6 @@ Iterator.factory = function(data) {
     },
     next: function() {
       return data.shift();
-    },
-    toArray: function() {
-      return data;
     }
   });
 };
@@ -443,40 +436,52 @@ DichotomySearcher = (function() {
     return compare.call(a, b);
   };
 
+  DichotomySearcher.prototype.isReverse = function(compare) {
+    var data;
+    compare = 'function' === typeof compare ? compare : this.compare;
+    data = this.data;
+    if (data && data.length) {
+      return compare(data[0], data[data.length - 1]) === 1;
+    } else {
+      return false;
+    }
+  };
+
   DichotomySearcher.prototype.find = function(obj, compare) {
-    var data, len, pos;
+    var data, flag, len, pos;
     data = this.data;
     compare = 'function' === typeof compare ? compare : this.compare;
     len = data.length;
     pos = 0;
-    if (len > 0 && compare(data[0], obj) === 0) {
-      return 0;
-    }
-    while ((pos = Math.ceil((pos + len) / 2)) < len && len > 1) {
-      switch (compare(data[pos], obj)) {
-        case 0:
-          return this.result = pos;
-        case 1:
-          len = pos;
-          pos = 0;
-          break;
-        default:
-          pos = pos;
+    flag = this.isReverse(compare) ? -1 : 1;
+    if (len) {
+      if (compare(data[0], obj) === 0) {
+        return 0;
       }
-    }
-    if (len === 1 && compare(data[0], obj) === 0) {
-      return this.result = 0;
+      while ((pos = Math.ceil((pos + len) / 2)) < len && len > 1) {
+        switch (compare(data[pos], obj) * flag) {
+          case 0:
+            return this.result = pos;
+          case 1:
+            len = pos;
+            pos = 0;
+            break;
+          default:
+            pos = pos;
+        }
+      }
     }
     return this.result = -1;
   };
 
   DichotomySearcher.prototype.almostFind = function(obj, compare) {
-    var data, i, index, len1, value;
+    var data, flag, i, index, len1, value;
     data = this.data;
     compare = 'function' === typeof compare ? compare : this.compare;
+    flag = this.isReverse(compare) ? -1 : 1;
     for (index = i = 0, len1 = data.length; i < len1; index = ++i) {
       value = data[index];
-      if (compare(value, obj) >= 0) {
+      if (compare(value, obj) * flag >= 0) {
         return index;
       }
     }
@@ -495,10 +500,8 @@ _exports = {
   DichotomySearcher: DichotomySearcher
 };
 
-if (typeof exports !== 'undefined') {
-  if (typeof module !== 'undefined' && module.exports) {
-    exports = module.exports = _exports;
-  }
+if ((typeof exports !== "undefined" && exports !== null) && (typeof module !== "undefined" && module !== null) && (module.exports != null)) {
+  exports = module.exports = _exports;
 }
 
 if ('function' === typeof define && define.amd) {

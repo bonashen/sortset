@@ -9,14 +9,12 @@ class Iterator
         if(ref instanceof Array)
           @data = ref[..]
         else
-          [@hasNext,@next,@toArray] = [ref.hasNext, ref.next, ref.toArray]
+          {@hasNext,@next} = ref
 
   hasNext: ->
     @data.length > 0
   next: ->
     @data.shift()
-  toArray: ->
-    @data
 
 Iterator.factory = (data)->
   data = if data instanceof Array then data else [data]
@@ -26,8 +24,6 @@ Iterator.factory = (data)->
       data.length > 0
     next: ->
       data.shift()
-    toArray: ->
-      data
 
 class Set
   constructor: (set)->
@@ -139,7 +135,7 @@ class Set
 
   intersect: (set)->
     ret = Object.create(@)
-    ret.entry=[]
+    ret.entry = []
     if set instanceof Set
       (
         if @contains(item)
@@ -152,9 +148,10 @@ class Set
     remove_data = []
     for item in ret.entry
       if set.contains(item) and @contains(item)
-            remove_data.push(item)
+        remove_data.push(item)
     ret.removeAll(remove_data)
     ret
+#Sort set
 class SortSet extends Set
   add: (object)->
     if arguments.length == 0
@@ -183,7 +180,7 @@ class SortMap extends SortSet
     if key and ('object' == typeof key) and (arguments.length == 1)
       (super key).result
     else
-      if arguments.length==2
+      if arguments.length == 2
         (super {key: key, value: val}).result
       else
         false
@@ -258,29 +255,37 @@ class DichotomySearcher
       if @ > obj then 1 else if @ < obj then -1 else 0
     compare.call(a, b)
 
+  isReverse: (compare)->
+    compare = if 'function' == typeof compare then compare else @compare
+    data = @data
+    if data and data.length then  compare(data[0], data[data.length - 1]) == 1 else false
+
+
   find: (obj, compare)->
     data = @data
     compare = if 'function' == typeof compare then compare else @compare
     len = data.length
     pos = 0
-    if len > 0 and compare(data[0], obj) == 0 then return 0
-    while (pos = Math.ceil((pos + len ) / 2)) < len && len > 1
-      switch compare(data[pos], obj)
-        when 0
-          return @result = pos
-        when 1
-          len = pos
-          pos = 0
-        else
-          pos = pos
-    if len == 1 && compare(data[0], obj) == 0 then return @result = 0
+    flag = if @isReverse(compare) then -1 else 1
+    if len
+      if compare(data[0], obj) == 0 then return 0
+      while (pos = Math.ceil((pos + len ) / 2)) < len && len > 1
+        switch compare(data[pos], obj) * flag
+          when 0
+            return @result = pos
+          when 1
+            len = pos
+            pos = 0
+          else
+            pos = pos
     return @result = -1
 
   almostFind: (obj, compare)->
     data = @data
     compare = if 'function' == typeof compare then compare else @compare
+    flag = if @isReverse(compare) then -1 else 1
     for value,index in data
-      if compare(value, obj) >= 0
+      if compare(value, obj)*flag >= 0
         return index
     data.length
 
@@ -292,12 +297,15 @@ _exports =
   DichotomySearcher: DichotomySearcher
 
 #exports
-if typeof exports != 'undefined'
-  if typeof module != 'undefined' and module.exports
-    exports = module.exports = _exports
+if exports? and module? and module.exports?
+  exports = module.exports = _exports
+
+#if typeof exports != 'undefined'
+#  if typeof module != 'undefined' and module.exports
+#    exports = module.exports = _exports
 
 #for AMD
-if 'function'== typeof define and define.amd
+if 'function' == typeof define and define.amd
   define null, [], ->
     _exports
 return
