@@ -1,20 +1,22 @@
 class Iterator
   constructor: ()->
     @data = []
-    if arguments.length == 2
-      [@hasNext,@next]=[arguments[0], arguments[1]]
+    if arguments.length == 3
+      [@hasNext,@next,@toArray]=[arguments[0], arguments[1],arguments[2]]
     if arguments.length == 1
       ref = arguments[0]
       if ref && 'object' == typeof ref
         if(ref instanceof Array)
           @data = ref[..]
         else
-          {@hasNext,@next} = ref
+          {@hasNext,@next,@toArray} = ref
 
   hasNext: ->
     @data.length > 0
   next: ->
     @data.shift()
+  toArray:->
+    @data
 
 Iterator.factory = (data)->
   data = if data instanceof Array then data else [data]
@@ -24,6 +26,8 @@ Iterator.factory = (data)->
       data.length > 0
     next: ->
       data.shift()
+    toArray:->
+      data
 
 class Set
   constructor: (set)->
@@ -261,6 +265,10 @@ class SortMap extends SortSet
 
   values: ()->
     Iterator.factory(item.value for item in @entry)
+
+  forEach: (callback)->
+    super (item)->callback(item.key,item.value)
+    return
 
 SortMap.prototype.put = SortMap.prototype.add
 

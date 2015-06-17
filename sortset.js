@@ -8,8 +8,8 @@
     function Iterator() {
       var ref, ref1;
       this.data = [];
-      if (arguments.length === 2) {
-        ref1 = [arguments[0], arguments[1]], this.hasNext = ref1[0], this.next = ref1[1];
+      if (arguments.length === 3) {
+        ref1 = [arguments[0], arguments[1], arguments[2]], this.hasNext = ref1[0], this.next = ref1[1], this.toArray = ref1[2];
       }
       if (arguments.length === 1) {
         ref = arguments[0];
@@ -17,7 +17,7 @@
           if (ref instanceof Array) {
             this.data = ref.slice(0);
           } else {
-            this.hasNext = ref.hasNext, this.next = ref.next;
+            this.hasNext = ref.hasNext, this.next = ref.next, this.toArray = ref.toArray;
           }
         }
       }
@@ -29,6 +29,10 @@
 
     Iterator.prototype.next = function() {
       return this.data.shift();
+    };
+
+    Iterator.prototype.toArray = function() {
+      return this.data;
     };
 
     return Iterator;
@@ -44,6 +48,9 @@
       },
       next: function() {
         return data.shift();
+      },
+      toArray: function() {
+        return data;
       }
     });
   };
@@ -434,6 +441,12 @@
         }
         return results;
       }).call(this));
+    };
+
+    SortMap.prototype.forEach = function(callback) {
+      SortMap.__super__.forEach.call(this, function(item) {
+        return callback(item.key, item.value);
+      });
     };
 
     return SortMap;
