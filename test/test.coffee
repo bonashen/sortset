@@ -59,8 +59,8 @@ while iterator.hasNext()
 
 # forEach
 
-map.forEach (item)->
-  console.log item
+map.forEach (key,value)->
+  console.log key,value
 
 #DichotomySearcher
 

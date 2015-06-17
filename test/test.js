@@ -82,8 +82,8 @@
     console.log("value:" + obj);
   }
 
-  map.forEach(function(item) {
-    return console.log(item);
+  map.forEach(function(key, value) {
+    return console.log(key, value);
   });
 
   searcher = new ss.DichotomySearcher([5, 4, 3, 2, 1]);
