@@ -213,7 +213,7 @@ class SortSet extends Set
       ret
 
   indexOf: (data)->
-    new DichotomySearcher(@entry).find(data, @compare)
+    new DichotomySearcher(@entry).at(data, @compare)
 
 class SortMap extends SortSet
   compare: (a, b)->
@@ -320,7 +320,7 @@ class DichotomySearcher
     if data and data.length then  compare(data[0], data[data.length - 1]) == 1 else false
 
 
-  find: (obj, compare)->
+  at: (obj, compare)->
     data = @data
     compare = if 'function' == typeof compare then compare else @compare
     len = data.length
@@ -362,7 +362,7 @@ if module? and module.exports?
   module.exports = _exports
 
 #for AMD
-if 'function' == typeof define and define.amd
+if 'function' == typeof define and define.amd?
   define null, [], ->
     _exports
 

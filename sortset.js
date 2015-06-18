@@ -323,7 +323,7 @@ SortSet = (function(superClass) {
   };
 
   SortSet.prototype.indexOf = function(data) {
-    return new DichotomySearcher(this.entry).find(data, this.compare);
+    return new DichotomySearcher(this.entry).at(data, this.compare);
   };
 
   return SortSet;
@@ -527,7 +527,7 @@ DichotomySearcher = (function() {
     }
   };
 
-  DichotomySearcher.prototype.find = function(obj, compare) {
+  DichotomySearcher.prototype.at = function(obj, compare) {
     var data, flag, len, pos;
     data = this.data;
     compare = 'function' === typeof compare ? compare : this.compare;
@@ -584,7 +584,7 @@ if ((typeof module !== "undefined" && module !== null) && (module.exports != nul
   module.exports = _exports;
 }
 
-if ('function' === typeof define && define.amd) {
+if ('function' === typeof define && (define.amd != null)) {
   define(null, [], function() {
     return _exports;
   });
