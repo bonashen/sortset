@@ -2,7 +2,9 @@
 
 sortset has Set,SortSet,SortMap,Iterator for javascript,is collection toolkit part.
 
-## SortSet
+## examples
+
+### SortSet
 ```coffeescript
 
   ss = require '../sortset'
@@ -39,7 +41,7 @@ sortset has Set,SortSet,SortMap,Iterator for javascript,is collection toolkit pa
     
 ```
 
-## SortMap
+### SortMap
 
 ```coffeescript
 
@@ -67,7 +69,7 @@ console.log "map.contains key 1:",map.containsKey('1'),"map.contains 'kerry' val
 ```
 
 
-# iterator
+### iterator
 
 ```coffeescript
 
@@ -110,3 +112,7 @@ while iterator.hasNext()
     #==>value:lala
     #==>value:kerry
 ```
+
+
+  
+  

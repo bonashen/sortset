@@ -2,6 +2,7 @@ ss = require '../sortset.coffee'
 
 SortSet = ss.SortSet
 SortMap = ss.SortMap
+Iterator = ss.Iterator
 
 #SortSet test
 set = new SortSet([10,9,8,7,2,3,4,6,1])
@@ -56,6 +57,13 @@ console.log "values interator operator:"
 while iterator.hasNext()
   obj = iterator.next()
   console.log "value:#{obj}"
+
+##Iterator.forEach
+Iterator.forEach([1..5],(item)->console.log item)
+
+Iterator.forEach({name:'bona',id:'2'},(item)->console.log item)
+
+Iterator.forEach map.iterator,(item)->console.log item
 
 # forEach
 

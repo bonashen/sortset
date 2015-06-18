@@ -16,7 +16,11 @@ Iterator = (function() {
         if (ref instanceof Array) {
           this.data = ref.slice(0);
         } else {
-          this.hasNext = ref.hasNext, this.next = ref.next, this.toArray = ref.toArray;
+          if (ref instanceof Iterator) {
+            this.data = ref.toArray().slice(0);
+          } else {
+            this.hasNext = ref.hasNext, this.next = ref.next, this.toArray = ref.toArray;
+          }
         }
       }
     }
@@ -52,6 +56,40 @@ Iterator.factory = function(data) {
       return data;
     }
   });
+};
+
+Iterator.forEach = function(iterator, callback) {
+  var hasOwnProp, key, value;
+  if ('function' === typeof callback && typeof iterator === 'object' && iterator !== null) {
+    if (iterator instanceof Array) {
+      iterator = Iterator.factory(iterator);
+    } else {
+      if (iterator instanceof Iterator || ('function' === typeof iterator.hasNext && 'function' === typeof iterator.next)) {
+
+      } else {
+        hasOwnProp = {}.hasOwnProperty;
+        iterator = new Iterator((function() {
+          var results;
+          results = [];
+          for (key in iterator) {
+            value = iterator[key];
+            if (hasOwnProp.call(iterator, key)) {
+              results.push({
+                key: key,
+                value: value
+              });
+            }
+          }
+          return results;
+        })());
+      }
+    }
+    while (iterator.hasNext()) {
+      if (callback(iterator.next())) {
+        break;
+      }
+    }
+  }
 };
 
 Set = (function() {
@@ -232,15 +270,7 @@ Set = (function() {
   };
 
   Set.prototype.forEach = function(callback) {
-    var iterator;
-    if ('function' === typeof callback) {
-      iterator = this.iterator;
-      while (iterator.hasNext()) {
-        if (callback(iterator.next())) {
-          break;
-        }
-      }
-    }
+    return Iterator.forEach(this.iterator, callback);
   };
 
   return Set;
@@ -421,7 +451,7 @@ SortMap = (function(superClass) {
   };
 
   SortMap.prototype.forEach = function(callback) {
-    SortMap.__super__.forEach.call(this, function(item) {
+    return SortMap.__super__.forEach.call(this, function(item) {
       return callback(item.key, item.value);
     });
   };

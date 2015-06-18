@@ -2,20 +2,23 @@ class Iterator
   constructor: ()->
     @data = []
     if arguments.length == 3
-      [@hasNext,@next,@toArray]=[arguments[0], arguments[1],arguments[2]]
+      [@hasNext,@next,@toArray]=[arguments[0], arguments[1], arguments[2]]
     if arguments.length == 1
       ref = arguments[0]
       if ref && 'object' == typeof ref
         if(ref instanceof Array)
           @data = ref[..]
         else
-          {@hasNext,@next,@toArray} = ref
+          if ref instanceof Iterator
+            @data = ref.toArray()[..]
+          else
+            {@hasNext,@next,@toArray} = ref
 
   hasNext: ->
     @data.length > 0
   next: ->
     @data.shift()
-  toArray:->
+  toArray: ->
     @data
 
 Iterator.factory = (data)->
@@ -26,8 +29,25 @@ Iterator.factory = (data)->
       data.length > 0
     next: ->
       data.shift()
-    toArray:->
+    toArray: ->
       data
+
+#support:array,Iterator,object
+Iterator.forEach = (iterator, callback)->
+  if 'function'is typeof callback and typeof iterator is 'object' and iterator isnt null
+    if iterator instanceof Array
+      iterator = Iterator.factory(iterator)
+    else
+      if  iterator instanceof Iterator or (('function' is typeof iterator.hasNext and 'function' is typeof iterator.next))
+      else
+          hasOwnProp = {}.hasOwnProperty
+          iterator = new Iterator ((
+            {key: key, value: value}
+          )for key,value of iterator when hasOwnProp.call(iterator, key))
+    while iterator.hasNext()
+      if callback(iterator.next())
+        break
+  return
 
 class Set
   constructor: (set)->
@@ -63,7 +83,7 @@ class Set
     if arguments.length == 0
       false
     else
-      if arguments.length ==1 and object instanceof Array
+      if arguments.length == 1 and object instanceof Array
         objects = object
       else
         objects = arguments
@@ -161,21 +181,17 @@ class Set
     ret
 
   forEach: (callback)->
-    if 'function' == typeof callback
-      iterator = @iterator
-      while iterator.hasNext()
-        if callback(iterator.next())
-          break
-    return
+    Iterator.forEach(@iterator,callback)
 
-Object.defineProperty Set.prototype,"size",
-    get:->@entry.length
 
-Object.defineProperty Set.prototype,"empty",
-  get:->@entry.length==0
+Object.defineProperty Set.prototype, "size",
+  get: -> @entry.length
 
-Object.defineProperty Set.prototype,"iterator",
-  get:->Iterator.factory(@entry)
+Object.defineProperty Set.prototype, "empty",
+  get: -> @entry.length == 0
+
+Object.defineProperty Set.prototype, "iterator",
+  get: -> Iterator.factory(@entry)
 
 
 #Sort set
@@ -210,9 +226,9 @@ class SortMap extends SortSet
       if arguments.length == 2
         obj = key: key, value: val
     if obj
-      pos =  @indexOf(obj)
-      if pos>-1
-        @entry[pos].value =obj.value
+      pos = @indexOf(obj)
+      if pos > -1
+        @entry[pos].value = obj.value
         true
       else
         (super obj).result
@@ -278,16 +294,15 @@ class SortMap extends SortSet
 #    Iterator.factory(item.value for item in @entry)
 
   forEach: (callback)->
-    super (item)->callback(item.key,item.value)
-    return
+    super (item)-> callback(item.key, item.value)
 
 SortMap.prototype.put = SortMap.prototype.add
 
-Object.defineProperty SortMap.prototype,"values",
-  get:->Iterator.factory(item.value for item in @entry)
+Object.defineProperty SortMap.prototype, "values",
+  get: -> Iterator.factory(item.value for item in @entry)
 
-Object.defineProperty SortMap.prototype,"keySet",
-  get:-> Iterator.factory(item.key for item in @entry)
+Object.defineProperty SortMap.prototype, "keySet",
+  get: -> Iterator.factory(item.key for item in @entry)
 
 class DichotomySearcher
   constructor: (@data)->
