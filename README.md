@@ -71,7 +71,7 @@ console.log "map.contains key 1:",map.containsKey('1'),"map.contains 'kerry' val
 
 ```coffeescript
 
-iterator = map.iterator()
+iterator = map.iterator
 console.log "key-value iterator instanceof ss.Iterator:",iterator instanceof ss.Iterator
 
     #==>key-value iterator instanceof ss.Iterator: true
@@ -85,7 +85,7 @@ while iterator.hasNext()
     #==>key:2   value:bona
     #==>key:3   value:lala
     #==>key:8   value:kerry
-iterator = map.keySet()
+iterator = map.keySet
 console.log "keySet iterator instanceof ss.Iterator:",iterator instanceof ss.Iterator
 
     #==>keySet iterator instanceof ss.Iterator: true
@@ -96,7 +96,7 @@ while iterator.hasNext()
 
     #==>keySet interator operator:
     #==>key:1   key:2   key:3 key:8
-iterator = map.values()
+iterator = map.values
 console.log "values iterator instanceof ss.Iterator:",iterator instanceof ss.Iterator
 console.log "values interator operator:"
 while iterator.hasNext()

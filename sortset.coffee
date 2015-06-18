@@ -35,14 +35,14 @@ class Set
     if arguments.length
       @putAll.apply(@, arguments)
 
-  isEmpty: ->
-    @entry.length == 0
-
-  size: ->
-    @entry.length
-
-  iterator: ->
-    Iterator.factory(@entry)
+#  isEmpty: ->
+#    @entry.length == 0
+#
+#  size: ->
+#    @entry.length
+#
+#  iterator: ->
+#    Iterator.factory(@entry)
 
   add: (object)->
     if arguments.length == 0
@@ -162,11 +162,22 @@ class Set
 
   forEach: (callback)->
     if 'function' == typeof callback
-      iterator = @iterator()
+      iterator = @iterator
       while iterator.hasNext()
         if callback(iterator.next())
           break
     return
+
+Object.defineProperty Set.prototype,"size",
+    get:->@entry.length
+
+Object.defineProperty Set.prototype,"empty",
+  get:->@entry.length==0
+
+Object.defineProperty Set.prototype,"iterator",
+  get:->Iterator.factory(@entry)
+
+
 #Sort set
 class SortSet extends Set
   add: (object)->
@@ -250,8 +261,8 @@ class SortMap extends SortSet
     pos = @indexOf({key: key})
     if(pos >= 0) then @entry[pos].value else null
 
-  keySet: ()->
-    Iterator.factory(item.key for item in @entry)
+#  keySet: ()->
+#    Iterator.factory(item.key for item in @entry)
 
   containsKey: (key)->
     @contains key: key
@@ -263,14 +274,20 @@ class SortMap extends SortSet
     )for item in @entry when item.value == value
     ret
 
-  values: ()->
-    Iterator.factory(item.value for item in @entry)
+#  values: ()->
+#    Iterator.factory(item.value for item in @entry)
 
   forEach: (callback)->
     super (item)->callback(item.key,item.value)
     return
 
 SortMap.prototype.put = SortMap.prototype.add
+
+Object.defineProperty SortMap.prototype,"values",
+  get:->Iterator.factory(item.value for item in @entry)
+
+Object.defineProperty SortMap.prototype,"keySet",
+  get:-> Iterator.factory(item.key for item in @entry)
 
 class DichotomySearcher
   constructor: (@data)->
@@ -326,7 +343,7 @@ _exports =
 #exports
 
 if module? and module.exports?
-  exports = module.exports = _exports
+  module.exports = _exports
 
 #for AMD
 if 'function' == typeof define and define.amd

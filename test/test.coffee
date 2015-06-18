@@ -1,4 +1,4 @@
-ss = require '../sortset'
+ss = require '../sortset.coffee'
 
 SortSet = ss.SortSet
 SortMap = ss.SortMap
@@ -36,21 +36,21 @@ console.log "map.contains key 1:",map.containsKey('1'),"map.contains 'kerry' val
 
 #iterator
 
-iterator = map.iterator()
+iterator = map.iterator
 console.log "key-value iterator instanceof ss.Iterator:",iterator instanceof ss.Iterator
 console.log "key-value interator operator:"
 while iterator.hasNext()
   obj = iterator.next()
   console.log "key:#{obj.key}","  value:#{obj.value}"
 
-iterator = map.keySet()
+iterator = map.keySet
 console.log "keySet iterator instanceof ss.Iterator:",iterator instanceof ss.Iterator
 console.log "keySet interator operator:"
 while iterator.hasNext()
   obj = iterator.next()
   console.log "key:#{obj}"
 
-iterator = map.values()
+iterator = map.values
 console.log "values iterator instanceof ss.Iterator:",iterator instanceof ss.Iterator
 console.log "values interator operator:"
 while iterator.hasNext()
