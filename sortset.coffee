@@ -205,7 +205,7 @@ class SortSet extends Set
         if @contains(value)
           ret.push(value)
           continue
-        index = new DichotomySearcher(@entry).almostFind(value, @compare)
+        index = new DichotomySearcher(@entry).geFirst(value, @compare)
         @entry = (if index == 0 then [] else @entry[0..index - 1]).concat(value).concat(@entry[index..])
       ) for value in arguments
 
@@ -339,7 +339,7 @@ class DichotomySearcher
             pos = pos
     return @result = -1
 
-  almostFind: (obj, compare)->
+  geFirst: (obj, compare)->
     data = @data
     compare = if 'function' == typeof compare then compare else @compare
     flag = if @isReverse(compare) then -1 else 1
@@ -347,6 +347,7 @@ class DichotomySearcher
       if compare(value, obj) * flag >= 0
         return index
     data.length
+
 
 _exports =
   SortSet: SortSet

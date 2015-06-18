@@ -74,7 +74,7 @@ map.forEach (key,value)->
 
 searcher = new ss.DichotomySearcher([5..1])
 console.log "find 4 value:",searcher.find(4)
-console.log "almostFind 0 value:",searcher.almostFind(0)
+console.log "first >=0 value's postion:",searcher.geFirst(0)
 
 searcher = new ss.DichotomySearcher([1..5])
 console.log "find 3 value:",searcher.find(3)

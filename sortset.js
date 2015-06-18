@@ -314,7 +314,7 @@ SortSet = (function(superClass) {
           ret.push(value);
           continue;
         }
-        index = new DichotomySearcher(this.entry).almostFind(value, this.compare);
+        index = new DichotomySearcher(this.entry).geFirst(value, this.compare);
         this.entry = (index === 0 ? [] : this.entry.slice(0, +(index - 1) + 1 || 9e9)).concat(value).concat(this.entry.slice(index));
       }
       ret.result = ret.length === 0;
@@ -554,7 +554,7 @@ DichotomySearcher = (function() {
     return this.result = -1;
   };
 
-  DichotomySearcher.prototype.almostFind = function(obj, compare) {
+  DichotomySearcher.prototype.geFirst = function(obj, compare) {
     var data, flag, i, index, len1, value;
     data = this.data;
     compare = 'function' === typeof compare ? compare : this.compare;
