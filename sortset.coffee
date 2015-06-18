@@ -348,6 +348,14 @@ class DichotomySearcher
         return index
     data.length
 
+  ge:(obj,compare)->
+    pos = @geFirst(obj,compare)
+    ret = []
+    len = @data.length
+    if len>pos>-1
+      while pos<len
+        ret.push @data[pos++]
+    ret
 
 _exports =
   SortSet: SortSet

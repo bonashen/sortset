@@ -568,6 +568,19 @@ DichotomySearcher = (function() {
     return data.length;
   };
 
+  DichotomySearcher.prototype.ge = function(obj, compare) {
+    var len, pos, ret;
+    pos = this.geFirst(obj, compare);
+    ret = [];
+    len = this.data.length;
+    if ((len > pos && pos > -1)) {
+      while (pos < len) {
+        ret.push(this.data[pos++]);
+      }
+    }
+    return ret;
+  };
+
   return DichotomySearcher;
 
 })();
