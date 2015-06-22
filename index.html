@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Sortset by bonashen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Sortset</h1>
+      <h2 class="project-tagline">sort set toolkit for javascript on explorer &amp; nodejs</h2>
+      <a href="https://github.com/bonashen/sortset" class="btn">View on GitHub</a>
+      <a href="https://github.com/bonashen/sortset/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/bonashen/sortset/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="sortset" class="anchor" href="#sortset" aria-hidden="true"><span class="octicon octicon-link"></span></a>sortset</h1>
+
+<p>sortset has Set,SortSet,SortMap,Iterator for javascript,is collection toolkit part.</p>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>examples</h2>
+
+<h3>
+<a id="sortset-1" class="anchor" href="#sortset-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>SortSet</h3>
+
+<div class="highlight highlight-coffeescript"><pre>
+  <span class="pl-v"><span class="pl-v">ss <span class="pl-k">=</span></span></span> <span class="pl-c1">require</span> <span class="pl-s"><span class="pl-pds">'</span>../sortset<span class="pl-pds">'</span></span>
+
+  <span class="pl-v"><span class="pl-v">SortSet <span class="pl-k">=</span></span></span> ss.SortSet
+  <span class="pl-v"><span class="pl-v">SortMap <span class="pl-k">=</span></span></span> ss.SortMap
+
+  <span class="pl-v"><span class="pl-v">set <span class="pl-k">=</span></span></span> <span class="pl-k">new</span> <span class="pl-en">SortSet</span>([<span class="pl-c1">10</span>,<span class="pl-c1">9</span>,<span class="pl-c1">8</span>,<span class="pl-c1">7</span>,<span class="pl-c1">2</span>,<span class="pl-c1">3</span>,<span class="pl-c1">4</span>,<span class="pl-c1">6</span>,<span class="pl-c1">1</span>])
+
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span> set,<span class="pl-s"><span class="pl-pds">"</span>set contains 5:<span class="pl-pds">"</span></span>,set.contains(<span class="pl-c1">5</span>) 
+
+    <span class="pl-c">#==&gt;{ entry: [ 1, 2, 3, 4, 6, 7, 8, 9, 10 ] } 'set contains 5:' false</span>
+
+  <span class="pl-v"><span class="pl-v">set <span class="pl-k">=</span></span></span> set.union(<span class="pl-k">new</span> <span class="pl-en">SortSet</span>([<span class="pl-c1">5</span>,<span class="pl-c1">0</span>]))
+
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span> set,<span class="pl-s"><span class="pl-pds">"</span>set contains 5:<span class="pl-pds">"</span></span>,set.contains(<span class="pl-c1">5</span>),<span class="pl-s"><span class="pl-pds">"</span>set instanceof SortSet:<span class="pl-pds">"</span></span>,set <span class="pl-k">instanceof</span> SortSet
+
+    <span class="pl-c">#==&gt;{ entry: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] } 'set contains 5:' true 'set instanceof SortSet:' true</span>
+
+  <span class="pl-v"><span class="pl-v">set <span class="pl-k">=</span></span></span> set.intersect(<span class="pl-k">new</span> <span class="pl-en">SortSet</span>([<span class="pl-c1">11</span>,<span class="pl-c1">4</span>,<span class="pl-c1">6</span>,<span class="pl-c1">8</span>,<span class="pl-c1">9</span>]))
+
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span> set,<span class="pl-s"><span class="pl-pds">"</span>set contains 5:<span class="pl-pds">"</span></span>,set.contains(<span class="pl-c1">5</span>),<span class="pl-s"><span class="pl-pds">"</span>set instanceof SortSet:<span class="pl-pds">"</span></span>,set <span class="pl-k">instanceof</span> SortSet
+
+    <span class="pl-c">#==&gt;{ entry: [ 4, 6, 8, 9 ] } 'set contains 5:' false 'set instanceof SortSet:' true</span>
+  <span class="pl-v"><span class="pl-v">set <span class="pl-k">=</span></span></span> set.difference(<span class="pl-k">new</span> <span class="pl-en">SortSet</span>([<span class="pl-c1">11</span>,<span class="pl-c1">7</span>,<span class="pl-c1">5</span>,<span class="pl-c1">3</span>,<span class="pl-c1">2</span>,<span class="pl-c1">1</span>,<span class="pl-c1">0</span>,<span class="pl-c1">10</span>]))
+
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span> set,<span class="pl-s"><span class="pl-pds">"</span>set contains 5:<span class="pl-pds">"</span></span>,set.contains(<span class="pl-c1">5</span>),<span class="pl-s"><span class="pl-pds">"</span>set instanceof SortSet:<span class="pl-pds">"</span></span>,set <span class="pl-k">instanceof</span> SortSet
+
+    <span class="pl-c">#==&gt;{ entry: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ] } 'set contains 5:' true 'set instanceof SortSet:' true</span>
+  <span class="pl-v"><span class="pl-v">ret <span class="pl-k">=</span></span></span> set.add(<span class="pl-c1">4</span>,<span class="pl-c1">3</span>,<span class="pl-c1">9</span>,<span class="pl-c1">12</span>)
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span> ret
+
+    <span class="pl-c">#==&gt;[ 4, 3, 9, result: false ]</span>
+</pre></div>
+
+<h3>
+<a id="sortmap" class="anchor" href="#sortmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>SortMap</h3>
+
+<div class="highlight highlight-coffeescript"><pre>
+<span class="pl-v"><span class="pl-v">map <span class="pl-k">=</span></span></span> <span class="pl-k">new</span> <span class="pl-en">SortMap</span>([{<span class="pl-v"><span class="pl-v">key:</span></span><span class="pl-s"><span class="pl-pds">'</span>2<span class="pl-pds">'</span></span>,<span class="pl-v"><span class="pl-v">value:</span></span><span class="pl-s"><span class="pl-pds">'</span>bona shen<span class="pl-pds">'</span></span>}])
+map.add(<span class="pl-s"><span class="pl-pds">'</span>8<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>kerry<span class="pl-pds">'</span></span>)
+map.add(<span class="pl-s"><span class="pl-pds">'</span>3<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>lala<span class="pl-pds">'</span></span>)
+map.add(<span class="pl-s"><span class="pl-pds">'</span>1<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>petter<span class="pl-pds">'</span></span>)
+map.add(<span class="pl-s"><span class="pl-pds">'</span>2<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>bona<span class="pl-pds">'</span></span>)
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span> map
+
+    <span class="pl-c">#==&gt;{ entry: </span>
+    <span class="pl-c">#==&gt;      [ { key: '1', value: 'petter' },</span>
+    <span class="pl-c">#==&gt;         { key: '2', value: 'bona' },</span>
+    <span class="pl-c">#==&gt;         { key: '3', value: 'lala' },</span>
+    <span class="pl-c">#==&gt;         { key: '8', value: 'kerry' } ] }</span>
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>key:2 's value:<span class="pl-pds">"</span></span>,map.get(<span class="pl-s"><span class="pl-pds">'</span>2<span class="pl-pds">'</span></span>)
+
+    <span class="pl-c">#==&gt;key:2 's value: bona</span>
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>map.contains key 1:<span class="pl-pds">"</span></span>,map.containsKey(<span class="pl-s"><span class="pl-pds">'</span>1<span class="pl-pds">'</span></span>),<span class="pl-s"><span class="pl-pds">"</span>map.contains 'kerry' value:<span class="pl-pds">"</span></span>,map.containsValue(<span class="pl-s"><span class="pl-pds">'</span>kerry<span class="pl-pds">'</span></span>)
+
+    <span class="pl-c">#==&gt;map.contains key 1: true map.contains 'kerry' value: true</span></pre></div>
+
+<h3>
+<a id="iterator" class="anchor" href="#iterator" aria-hidden="true"><span class="octicon octicon-link"></span></a>iterator</h3>
+
+<div class="highlight highlight-coffeescript"><pre>
+<span class="pl-v"><span class="pl-v">iterator <span class="pl-k">=</span></span></span> map.iterator
+<span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>key-value iterator instanceof ss.Iterator:<span class="pl-pds">"</span></span>,iterator <span class="pl-k">instanceof</span> ss.Iterator
+
+    <span class="pl-c">#==&gt;key-value iterator instanceof ss.Iterator: true</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>key-value interator operator:<span class="pl-pds">"</span></span>
+<span class="pl-k">while</span> iterator.hasNext()
+  <span class="pl-v"><span class="pl-v">obj <span class="pl-k">=</span></span></span> iterator.next()
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>key:<span class="pl-s1"><span class="pl-pse">#{</span>obj.key<span class="pl-pse">}</span></span><span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>  value:<span class="pl-s1"><span class="pl-pse">#{</span>obj.value<span class="pl-pse">}</span></span><span class="pl-pds">"</span></span>
+
+    <span class="pl-c">#==&gt;key-value interator operator:</span>
+    <span class="pl-c">#==&gt;key:1   value:petter</span>
+    <span class="pl-c">#==&gt;key:2   value:bona</span>
+    <span class="pl-c">#==&gt;key:3   value:lala</span>
+    <span class="pl-c">#==&gt;key:8   value:kerry</span>
+<span class="pl-v"><span class="pl-v">iterator <span class="pl-k">=</span></span></span> map.keySet
+<span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>keySet iterator instanceof ss.Iterator:<span class="pl-pds">"</span></span>,iterator <span class="pl-k">instanceof</span> ss.Iterator
+
+    <span class="pl-c">#==&gt;keySet iterator instanceof ss.Iterator: true</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>keySet interator operator:<span class="pl-pds">"</span></span>
+<span class="pl-k">while</span> iterator.hasNext()
+  <span class="pl-v"><span class="pl-v">obj <span class="pl-k">=</span></span></span> iterator.next()
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>key:<span class="pl-s1"><span class="pl-pse">#{</span>obj<span class="pl-pse">}</span></span><span class="pl-pds">"</span></span>
+
+    <span class="pl-c">#==&gt;keySet interator operator:</span>
+    <span class="pl-c">#==&gt;key:1   key:2   key:3 key:8</span>
+<span class="pl-v"><span class="pl-v">iterator <span class="pl-k">=</span></span></span> map.values
+<span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>values iterator instanceof ss.Iterator:<span class="pl-pds">"</span></span>,iterator <span class="pl-k">instanceof</span> ss.Iterator
+<span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>values interator operator:<span class="pl-pds">"</span></span>
+<span class="pl-k">while</span> iterator.hasNext()
+  <span class="pl-v"><span class="pl-v">obj <span class="pl-k">=</span></span></span> iterator.next()
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span> <span class="pl-s"><span class="pl-pds">"</span>value:<span class="pl-s1"><span class="pl-pse">#{</span>obj<span class="pl-pse">}</span></span><span class="pl-pds">"</span></span>
+
+    <span class="pl-c">#==&gt;values iterator instanceof ss.Iterator: true</span>
+    <span class="pl-c">#==&gt;values interator operator:</span>
+    <span class="pl-c">#==&gt;value:petter</span>
+    <span class="pl-c">#==&gt;value:bona</span>
+    <span class="pl-c">#==&gt;value:lala</span>
+    <span class="pl-c">#==&gt;value:kerry</span></pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/bonashen/sortset">Sortset</a> is maintained by <a href="https://github.com/bonashen">bonashen</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
